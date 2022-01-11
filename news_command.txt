@@ -140,10 +140,10 @@ Author.objects.all().order_by('-author_rating').values('authorUser__username', '
 Post.objects.all().order_by('-rating').values('post_time_in', 'author__authorUser__username', 'rating', 'headline')[0]
 Post.objects.all().order_by('-rating')[0].preview()
 
+a = Post.objects.all().order_by('-rating')[0]
 for i in Comments.objects.filter(comm_post_id__exact=a):
 ...   i.comm_user
 ...   i.comm_time_in
 ...   i.rating
 ...   i.comm_text
-
 
