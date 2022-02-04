@@ -1,0 +1,29 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+<!-- Название у нас будет news -->
+{% block title %}
+News
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все новости -->
+{% block content %}
+
+<form method="GET">
+    {{ filter.form }} <!-- Форму от фильтров за нас сделает django. А вот кнопку, увы придётся делать самому -->
+    <input type="submit" value="Найти">
+</form>
+
+{% for newsdetail in filter.qs %}
+<a href="{% url 'post_update' newsdetail.id %}">{{ newsdetail.headline }}</a> <!-- При нажатии на заголовок в таблице нас теперь будет перекидывать на страницу с самой новости -->
+<a href="{% url 'post_update' newsdetail.id %}"><u>Редактировать</u></a> <!-- добавим ссылку на редактирование новости-->
+<a href="{% url 'post_delete' newsdetail.id %}"><u> Удалить </u></a> <!-- добавим ссылку на удаление товара-->
+<h6>{{ newsdetail.post_time_in|date:'d M Y H i' }}</h6>
+<h5>{{ newsdetail.text|truncatewords:50|Censor }}</h5>
+
+{% endfor %}
+
+<a href="{% url 'post_create' %}">Добавить новую новость</a> <br>
+
+
+{% endblock content %}
