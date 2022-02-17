@@ -1,0 +1,28 @@
+<!--  наследуемся от шаблона default.html, который мы создавали ещё во времена flatpages -->
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+<!-- Название у нас будет post -->
+{% block title %}
+Post
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сау новость, ID которой было передано в адрес -->
+{% block content %}
+<h2>{{ postdetail.headline|Censor }}</h2>
+<h4>{{ postdetail.post_time_in|date:'d M Y H : i' }}</h4>
+<h5>{{ postdetail.text|Censor }}</h5>
+
+{% for category in post.category.id.all %}
+{% if is_not_subscribe %}
+<!--GET запрос, который передает в наше представление значение категории, переменная post.category.id, -->
+<!--которая в дальнейшем необходима для добавления подписчиков-->
+<button><a href="add_subscribe/?pk={{ post.category.id }}">ПодПиска :)</a></button>
+{% endif %}
+
+{% if is_subscribe %}
+<button><a href="del_subscribe/?pk={{ post.category.id }}">ОтПиска :)</a></button>
+{% endif %}
+{% endfor %}
+
+{% endblock content %}
