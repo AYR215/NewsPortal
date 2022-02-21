@@ -14,10 +14,10 @@ News
 
 
 
-{% for newsdetail in news %}
-<a href="{% url 'post_detail' newsdetail.id %}"><h3>{{newsdetail.headline|Censor }}</h3></a>
-<h6>{{ newsdetail.post_time_in|date:'d M Y H i' }}</h6>
-<h5>{{ newsdetail.text|truncatewords:50|Censor }}</h5>
+{% for postdetail in news %}
+<a href="{% url 'post_detail' postdetail.id %}"><h3>{{postdetail.headline|Censor }}</h3></a>
+<h6>{{ postdetail.post_time_in|date:'d M Y H i' }}</h6>
+<h5>{{ postdetail.text|truncatewords:50|Censor }}</h5>
 {% endfor %}
 
 {% if is_paginated %}

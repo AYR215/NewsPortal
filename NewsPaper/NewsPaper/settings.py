@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django_filters',
     'sign',
     'protect',
+
+    'django_apscheduler',
 ]
 
 LOGIN_URL = '/accounts/login/'
@@ -169,3 +171,7 @@ ADMINS = [
 SERVER_EMAIL = 'ayr215215@yandex.ru'  # это будет у нас вместо аргумента FROM в масс
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER+'@yandex.ru'
 
+# формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds

@@ -14,7 +14,7 @@ class PostForm(ModelForm):
 
     class Meta:
         model = Post
-        fields = ['headline', 'post_type', 'post_categories', 'text', 'author',
+        fields = ['headline', 'post_type', 'categories', 'text', 'author',
                   'check_box']  # не забываем включить галочку в поля иначе она не будет показываться на странице!
 
 

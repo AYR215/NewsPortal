@@ -1,0 +1,16 @@
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{ post.categories.subscribers.username }} Здравствуйте!</h2>
+    <p> В категории, на которую Вы подписаны  появилась новая публикация <a href="http://127.0.0.1:8000/news/{{post.pk}}"></a></p>
+    <h6>{{ post.headline|Censor  }}</h6>
+    <h5>{{ post.text|truncatewords:50|Censor }}</h5>
+ </body>
+</html>

@@ -62,12 +62,30 @@ class Post(models.Model):
     ]
     post_type = models.CharField(max_length=2, choices=TYPE, default=ARTICLE)
     post_time_in = models.DateTimeField(auto_now_add=True, verbose_name='(ММ/ДД/ГГГГ)Добавлено')
-    post_categories = models.ManyToManyField(Category, through='PostCategory')
+    categories = models.ManyToManyField(Category, through='PostCategory')
     headline = models.CharField(max_length=155, verbose_name='В заголовке')
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
 
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    def subscriber_email_list(self):
+        sub_user_email = []
+
+        for cat in self.categories.values('id'):
+            for subscribers in Category.objects.get(pk=int(cat['id'])).subscribers.values('id'):
+                for email in User.objects.filter(pk=int(subscribers['id'])).values('email'):
+                    sub_user_email.append(email['email'])
+        return sub_user_email
+    def subscribers_id_list(self):
+        sub_user = []
+
+        for cat in self.categories.values('id'):
+            for subscribers in Category.objects.get(pk=int(cat['id'])).subscribers.values('id'):
+                for user_id in User.objects.filter(pk=int(subscribers['id'])).values('id'):
+                    sub_user.append(user_id['id'])
+        return sub_user
+
 
     def like(self):
         self.rating += 1
@@ -81,7 +99,7 @@ class Post(models.Model):
         return f'{self.text[0:123]} ...'
 
     def __str__(self):
-        return f'{self.headline} {self.author}'
+        return f'{self.headline}{self.post_time_in}'
 
     def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
         return f'/news/{self.id}'
@@ -91,8 +109,8 @@ class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f'{self.category.title()}'
+    #def __str__(self):
+    #    return f'{self.category.title()}'
 
 
 class Comments(models.Model):
