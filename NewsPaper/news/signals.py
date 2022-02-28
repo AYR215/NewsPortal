@@ -1,26 +1,12 @@
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from django.core.mail import mail_managers, EmailMultiAlternatives
-from django.utils.timezone import utc
+
 
 from .models import Post, PostCategory
-
-import logging
-
-from django.conf import settings
-
-from apscheduler.schedulers.blocking import BlockingScheduler
-from apscheduler.triggers.cron import CronTrigger
-from django.core.management.base import BaseCommand
-from django_apscheduler.jobstores import DjangoJobStore
-from django_apscheduler.models import DjangoJobExecution
-from datetime import date, datetime, timedelta
-from time import timezone
-
-from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 
-from .models import Post
+
 
 
 # создаём функцию обработчик с параметрами под регистрацию сигнала

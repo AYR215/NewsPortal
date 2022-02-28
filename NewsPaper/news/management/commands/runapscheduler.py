@@ -13,7 +13,7 @@ from time import timezone
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 
-from news.models import Post
+from NewsPaper.news.models import Post
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,6 @@ def send_weekly_mails():
         email = [user.email, ]
         users_weekly_post_list = []
         for post in weekly_post_list:
-
             category = [category[name] for category in post.categories.values('name') for name in category if
                         name == 'name']
             if user.id in post.subscribers_id_list():
@@ -43,9 +42,6 @@ def send_weekly_mails():
             to=email
         )
         if users_weekly_post_list:
-           #print(users_weekly_post_list)
-           #print(email)
-
             msg.send()
 
 

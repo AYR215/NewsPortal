@@ -1,3 +1,4 @@
+import redis
 from django.apps import AppConfig
 
 
@@ -9,14 +10,9 @@ class NewsConfig(AppConfig):
     def ready(self):
         import news.signals
 
-#       from .tasks import send_weekly_mails
-#       from .scheduler import news_scheduler
-#       print('started')
 
-#       news_scheduler.add_job(
-#           id='mail send',
-#           func=send_weekly_mails,
-#           trigger='interval',
-#           seconds=10,
-#       )
-#       news_scheduler.start()
+#red = redis.Redis(
+#    host='redis-18178.c89.us-east-1-3.ec2.cloud.redislabs.com',
+#    port=18178,
+#    password='12oXXfgNWgdJqE8T72RVorQi7P6sC72x'
+#)

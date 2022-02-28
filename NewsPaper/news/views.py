@@ -8,10 +8,10 @@ from django.shortcuts import redirect, render
 from django.template.defaultfilters import truncatewords
 from django.views import View
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives, send_mail  # импортируем класс для создание объекта письма с html
-
+from .tasks import send_weekly_mails
 from .filters import PostFilter  # импортируем недавно написанный фильтр
 from .forms import PostForm  # импортируем нашу форму
 from .models import Post, Category, PostCategory
@@ -69,8 +69,8 @@ class Search(ListView):
         return context
 
 
-#@receiver(m2m_changed, sender=PostCategory)
-#def send_sub_mail(sender, instance, **kwargs):
+# @receiver(m2m_changed, sender=PostCategory)
+# def send_sub_mail(sender, instance, **kwargs):
 #    emailadress = instance.subscriber_email_list()
 #
 #    category = [category[name] for category in instance.categories.values('name') for name in category if
@@ -89,6 +89,32 @@ class Search(ListView):
 #    #print(emailadress)
 
 
+# def send_weekly_mails():
+#    global category, users_weekly_post_list
+#    weekly_post_list = Post.objects.filter(
+#        post_time_in__range=(datetime.now() - timedelta(days=7), datetime.now()))
+#
+#    for user in User.objects.all():
+#        email = user.email
+#        for post in weekly_post_list:
+#            users_weekly_post_list = []
+#
+#            category = [category[name] for category in post.categories.values('name') for name in category if
+#                        name == 'name']
+#            if user in post.subscribers_id_list():
+#                users_weekly_post_list.append(f'http://127.0.0.1:8000/news/{post.id}   ')
+#
+#        msg = EmailMultiAlternatives(
+#            subject=f'Здравствуй, подписчик, {user.name}',
+#            body=f"Новые побликации за неделю ! {category}"
+#                 f" {users_weekly_post_list}   ",
+#            from_email='ayr215215@yandex.ru',
+#            to=email
+#        )
+#        if category:
+#            msg.send()
+
+
 class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'add.html'
     form_class = PostForm
@@ -100,7 +126,8 @@ class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     permission_required = ('news.change_post',)
 
-    # метод get_object мы используем вместо queryset, чтобы получить информацию об объекте, который мы собираемся редактировать
+    # метод get_object мы используем вместо queryset, чтобы получить информацию об объекте, который мы собираемся
+    # редактировать
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
@@ -111,3 +138,10 @@ class PostDeleteView(DeleteView):
     template_name = 'delete.html'
     queryset = Post.objects.all()
     success_url = '/news/'
+
+
+def week_digest():
+    send_weekly_mails.delay()
+
+
+week_digest()
