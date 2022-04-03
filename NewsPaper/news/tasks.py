@@ -36,7 +36,6 @@ def send_weekly_mails():
         )
         if users_weekly_post_list:
             msg.send()
-    #print("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ")
 
 
 

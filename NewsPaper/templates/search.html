@@ -15,11 +15,11 @@ News
 </form>
 
 {% for postdetail in filter.qs %}
-<a href="{% url 'post_update' postdetail.id %}">{{ postdetail.headline }}</a> <!-- При нажатии на заголовок в таблице нас теперь будет перекидывать на страницу с самой новости -->
+<a href="{% url 'post_detail' postdetail.id %}"><h5>{{ postdetail.headline }}</h5></a> <!-- При нажатии на заголовок в таблице нас теперь будет перекидывать на страницу с самой новости -->
 <a href="{% url 'post_update' postdetail.id %}"><u>Редактировать</u></a> <!-- добавим ссылку на редактирование новости-->
 <a href="{% url 'post_delete' postdetail.id %}"><u> Удалить </u></a> <!-- добавим ссылку на удаление товара-->
-<h6>{{ postdetail.post_time_in|date:'d M Y H i' }}</h6>
-<h5>{{ postdetail.text|truncatewords:50|Censor }}</h5>
+<h5>{{ postdetail.post_time_in|date:'d M Y H i' }}</h5>
+<h6>{{ postdetail.text|truncatewords:50|Censor }}</h6>
 
 {% endfor %}
 

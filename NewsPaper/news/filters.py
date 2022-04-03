@@ -1,5 +1,4 @@
 from django_filters import FilterSet, CharFilter, DateFilter, ModelMultipleChoiceFilter
-from .models import Post
 from django.forms import DateInput
 from .models import Author, Category, Post, PostCategory, Comments
 

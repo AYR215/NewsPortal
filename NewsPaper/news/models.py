@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -68,6 +69,10 @@ class Post(models.Model):
     rating = models.SmallIntegerField(default=0)
 
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
+        cache.delete(f'post-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
 
     def subscriber_email_list(self):
         sub_user_email = []
