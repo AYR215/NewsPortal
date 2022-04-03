@@ -8,7 +8,7 @@ class NewsConfig(AppConfig):
 
     # нам надо переопределить метод ready, чтобы при готовности нашего приложения импортировался модуль со всеми функциями обработчиками
     def ready(self):
-        import news.signals
+        import NewsPaper.news.signals
 
 
 #red = redis.Redis(
