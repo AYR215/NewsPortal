@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -193,19 +192,22 @@ CACHES = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'style': '{',
     'formatters': {
         'debug': {
-            'format': '{asctime} {levelname} {message}'
+            'format': '{asctime} {levelname} {message}',
+            'style': '{',
         },
         'general': {
-            'format': '{asctime} {levelname} {module} {message}'
+            'format': '{asctime} {levelname} {module} {message}',
+            'style': '{',
         },
         'warning': {
-            'format': '{asctime} {levelname} {message} {pathname}'
+            'format': '{asctime} {levelname} {message} {pathname}',
+            'style': '{',
         },
         'errors': {
-            'format': '{asctime} {levelname} {message} {pathname} {exc_info}'
+            'format': '{asctime} {levelname} {message} {pathname} {exc_info}',
+            'style': '{',
         },
     },
     'filters': {
@@ -218,10 +220,10 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'debug',
+            'level': 'DEBUG',
             'filters': ['require_debug_true'],
+            'formatter': 'debug',
         },
         'console_warning': {
             'level': 'WARNING',
