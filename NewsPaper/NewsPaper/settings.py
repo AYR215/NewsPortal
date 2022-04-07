@@ -160,7 +160,7 @@ EMAIL_HOST_PASSWORD = 'qpxgpshzzxgvthdk'  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
 
 ADMINS = [
-    ('admin', 'ayr215215@yandex.ru'),
+    ('admin', 'ayr215@mail.ru'),
     # список всех админов в формате ('имя', 'их почта')
 ]
 SERVER_EMAIL = 'ayr215215@yandex.ru'  # это будет у нас вместо аргумента FROM в масс
@@ -276,6 +276,11 @@ LOGGING = {
         },
         'django.db_backends': {
             'handlers': ['console', 'errors'],
+            'propagate': True,
+        },
+
+        'django.security': {
+            'handlers': ['security'],
             'propagate': True,
         },
     }
